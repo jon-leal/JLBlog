@@ -10,45 +10,48 @@
 @inject IWebHostEnvironment WebHostEnvironment
 @inject AppDbContext DbContext
 @inject NavigationManager NavigationManager
-@*
-<AuthorizeView>
-    <Authorized>*@
-         <EditForm Model="@post" OnValidSubmit="@HandleSubmit">
 
-            <DataAnnotationsValidator />
-            <ValidationSummary />
-            <div class="form-group">
-                <label for="title">Title:</label>
-                <InputText id="title" class="form-control" @bind-Value="post.Title" />
-            </div>
-            <div class="form-group">
-                <label for="introduction">Introduction:</label>
-                <InputTextArea id="introduction" class="form-control" @bind-Value="post.Introduction" />
-            </div>
-            <div class="form-group">
-                <label for="bodyText">Body Text:</label>
-                <InputTextArea id="bodyText" class="form-control" @bind-Value="post.BodyText" />
-            </div>
-            <div class="form-group">
-                <label for="image">Image:</label>
-                <InputFile id="image" OnChange="@OnImageSelected" />
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </EditForm>
 
-@*    </Authorized>
 
-    <NotAuthorized>
-        <!-- Conteúdo que deve ser exibido para usuários não autenticados -->
-        <p>Você precisa estar logado para acessar esta página.</p>
-    </NotAuthorized>*@
 
-@*</AuthorizeView>*@
+
+<EditForm Model="@post" OnValidSubmit="@HandleSubmit">
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group">
+        <label for="title">Titulo:</label>
+        <InputText id="title" class="form-control" @bind-Value="post.Title" />
+    </div>
+    <br />
+    <div class="form-group">
+        <label for="introduction">Introdução:</label>
+        <InputTextArea id="introduction" class="form-control" @bind-Value="post.Introduction" />
+    </div>
+    <br />
+    <div class="form-group">
+        <label for="bodyText">Conteúdo:</label>
+        <InputTextArea id="bodyText" class="form-control" @bind-Value="post.BodyText" />
+    </div>
+    <br />
+    <div class="form-group">
+        <label for="image">Imagem de Capa:</label>
+        <InputFile id="image" OnChange="@OnImageSelected" />
+    </div>
+    <br />
+    <div class="form-group">
+        <label for="postImages">Imagens do Conteúdo:</label>
+        <InputFile id="postImages" OnChange="@OnPostImagesSelected" multiple />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</EditForm>
+
 
 
 @code {
     private Data.Post post = new Data.Post();
- 
+
     private async Task HandleSubmit()
     {
         // Create a new Post entity and populate it with form data
@@ -57,7 +60,8 @@
                 Title = post.Title,
                 Introduction = post.Introduction,
                 BodyText = post.BodyText,
-                Image = uploadedImage.Name // Store the image filename instead of the path
+                Image = uploadedImage.Name,
+                PostDate = DateTime.Now
             };
 
         // Add the new post to the database
@@ -83,4 +87,23 @@
         using var imageStream = new FileStream(imagePath, FileMode.Create);
         await uploadedImage.OpenReadStream().CopyToAsync(imageStream);
     }
+
+    private async Task OnPostImagesSelected(InputFileChangeEventArgs e)
+    {
+        var files = e.GetMultipleFiles();
+
+        // Ensure the img/articlePostImages folder exists
+        var imagesPath = Path.Combine(WebHostEnvironment.WebRootPath, "img", "articlePostImages");
+        Directory.CreateDirectory(imagesPath);
+
+        // Save each image to the folder
+        foreach (var file in files)
+        {
+            var imagePath = Path.Combine(imagesPath, file.Name);
+            using var imageStream = new FileStream(imagePath, FileMode.Create);
+            await file.OpenReadStream().CopyToAsync(imageStream);
+        }
+    }
+
+
 }

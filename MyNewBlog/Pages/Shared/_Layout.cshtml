@@ -1,7 +1,14 @@
 ﻿@using Microsoft.AspNetCore.Hosting
 @using Microsoft.AspNetCore.Mvc.ViewEngines
+@using JLBlog.Pages
+
 @inject IWebHostEnvironment Environment
 @inject ICompositeViewEngine Engine
+
+
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +19,9 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/Identity/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/Identity/css/site.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-32F7VZxbiu8Q2PrVdwMPhhQfFJHvXsa1TJp1+cK+x87i3q3E/i8yoChlOJYgYca2yklTLeRHXkWpJPRsC3BPzg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
@@ -20,7 +30,12 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/Identity/css/site.css" asp-append-version="true" />
     </environment>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC9hKkZfjBtBJUAW9ghzsw72a7NI19JQPRMH+U8c1ag9jUHS7YJaxx0rE9/K0xol5" crossorigin="anonymous">
+
 </head>
+
+
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark navbar-transparent mb-2 fixed-top navbar-scrolled">
@@ -40,8 +55,9 @@
                             <a class="nav-link"  href="#">Início</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Sobre</a>
+                            <a class="nav-link" href="/sobre">Sobre</a>
                         </li>
+
                         <li class="nav-item">
                             <a class="nav-link" href="#">contato</a>
                         </li>
@@ -50,17 +66,22 @@
             </div>
         </nav>
 
-        <div class="bg-image"></div>
-
     </header>
 
+
+  
     <div class="container">
+
         <partial name="_CookieConsentPartial" optional />
         <main role="main" class="pb-1">
             @RenderBody()
         </main>
+
+
+
     </div>
-    @*    <footer class="footer border-top pl-3 text-muted">
+
+@*        <footer class="footer border-top pl-3 text-muted">
     <div class="container">
     &copy; 2023 - JLBlog
     @{
@@ -73,15 +94,25 @@
     </div>
     </footer>*@
 
-    <footer class="bg-light text-dark py-3">
-      
-        <div class="container text-center">
-            <p class="mt-3">
-                ©2023 - Todos os direitos reservados, feito por JLeal
+    <footer class="footer py-3">
+        <div class="container d-flex flex-column justify-content-center align-items-center text-center" style="height: 100%;">
+            <p class="footer-icons">
+                <a href="https://github.com/seu-usuario-do-github" ><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/seu-perfil-do-linkedin" ><i class="fab fa-linkedin"></i></a>
             </p>
-
+            <p>©2023 - Todos os direitos reservados, feito por JLeal</p>
+            <button class="btn btn-primary scroll-to-top-btn position-absolute" onclick="scrollToTop()"><i class="fa-solid fa-circle-chevron-up"></i></button>
         </div>
     </footer>
+
+
+
+    <script>
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+
 
 
 
@@ -121,5 +152,10 @@
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)
+
+
+
 </body>
+
+
 </html>

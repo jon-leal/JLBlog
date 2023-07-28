@@ -1,29 +1,27 @@
-﻿@page "/article/{Id:int}"
+﻿@page "/article/{Title}"
 
-
-
-<div class="container">
-
-    <div class="row">
+<div class=" article-container">
+    <div class="column">
         <div class="col-9">
-            <img class="w-100" src="img/articleMainImages/@post.Image" />
-
             <h1 class="postTitle">@post.Title</h1>
+            <p class="postDate">Criado por JLeal | @post.PostDate.ToString("dd 'de' MMMM 'de' yyyy")</p>
+            <img class="w-100" src="img/articleMainImages/@post.Image" />
             <h3 class="postIntroduction">@post.Introduction</h3>
-            <p class ="postBodyText">@((MarkupString)post.BodyText)</p>
+            <p class="postBodyText">@((MarkupString)post.BodyText)</p>
+         
         </div>
     </div>
-
-
-
 </div>
+
+
 
 @using JLBlog.Data;
 @inject IConfiguration Configuration;
 
 @code {
     [Parameter]
-    public int id { get; set; }
+    public string Title { get; set; }
+
     private AppDbContext _context;
 
     public JLBlog.Data.Post post;
@@ -31,7 +29,9 @@
     protected override async Task OnInitializedAsync()
     {
         _context = new AppDbContext(Configuration);
-        post = _context.Posts.Where(x => x.Id == id).FirstOrDefault();
+        post = _context.Posts.Where(x => x.Title == Title).FirstOrDefault();
     }
+      
 }
+
 
