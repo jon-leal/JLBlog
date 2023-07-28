@@ -1,0 +1,19 @@
+﻿.post-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+    .post-container .icons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 0 20px;
+    }
+
+        .post-container .icons i {
+            font-size: 24px;
+            color: #333;
+            margin: 10px 0;
+        }

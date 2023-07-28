@@ -1,14 +1,55 @@
 ﻿@inherits LayoutComponentBase
 
+@inject NavigationManager NavManager
+
 <PageTitle>JLBlog</PageTitle>
 
-<div class="page">
-    <main>
+@if (!NavManager.Uri.EndsWith("/") && !NavManager.Uri.EndsWith("/index") && !NavManager.Uri.EndsWith("/#") && !NavManager.Uri.EndsWith("/index#"))
+{
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+    <div class="page">
+        <div class="container">
+            <main>     
+                <article class="content px-4 post2-container ">
+                    @Body
+                    <br/>
+                    <hr> 
+                    <div class="buymeacoffee">
+                        <h4 class="display-8">Gostando do conteúdo? </h4>
+                        <p>Considere me pagar um cafezinho!</p>                       
+                        <a href="https://www.buymeacoffee.com/jleal"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" width="150px"></a>
+
+                    </div>
+                    <hr>              
+                    
+                </article>
+            </main>
+
+        </div>
+    </div>
+}
+else
+{
+    <div class="blog-title py-3">
+        <p>Conteúdos sobre programação, software e tecnologia</p>
+    </div>
+
+
+
+    <div class="illustration py-3">
+        <img class="w-100" src="img/Software-Developer.png" alt="logo">
+    </div>
+
+
+    <div>
+        <main>
+            <article class="content px-4 post-container">
+                @Body
+            </article>
+        </main>
+    </div>
+}
+
+
 
 
